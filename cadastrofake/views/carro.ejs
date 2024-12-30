@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Bem vindo ao cadastro e <%= title %>
+  </p>
+
+  <p>
+    Tabela de carros
+  </p>
+  <table>
+    <tr>
+      <td>Marca</td>
+      <td>Modelo</td>
+      <td>Ano</td>
+    </tr>
+    <% for( let i=0; i < carros.length; i++){ %>
+      <tr>
+        <td>
+          <%=carros[i].Marca%>
+        </td>
+        <td>
+          <%=carros[i].Modelo%>
+        </td>
+        <td>
+          <%=carros[i].Ano%>
+        </td>
+      </tr>
+      <% } %>
+
+  </table>
+
+  <h1><a href="cadCarro">Cadastro de Carros</a></h1>
+
+
+
+
+
+
+</body>
+
+</html>

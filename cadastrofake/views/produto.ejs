@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Bem vindo ao cadastro e <%= title %>
+  </p>
+  <p>Listagem de produtos</p>
+  <table>
+    
+
+    <tr>
+      <td>Nome:</td>
+      <td>Preco:</td>
+    </tr>
+
+
+    <% for( let i=0; i < produtos.length; i++){ %>
+    
+      <tr>
+        <td>
+          <%=produtos[i].Nome%>
+        </td>
+        <td>
+          <%=produtos[i].Preco%>
+        </td>
+      </tr>
+      <% } %>
+
+  </table>
+  <p><a href="cadProduto">Cadastro de Produtos</a></p>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Cadastro de Carros</h1>
+
+    <form action="/cadCarro" method="post">
+        <p>
+            Marca: <select name="Marca">
+                <option value="VW">VW</option>
+                <option value="Fiat">Fiat</option>
+                <option value="Ford">Ford</option>
+                <option value="GM">GM</option>
+            </select>
+        </p>
+
+        <p>
+            Modelo: <input type="text" name="Modelo" value="" placeholder="Sedan"> </input>
+        </p>
+
+        <p>
+            Ano: <input type="text"  name="Ano" placeholder="2000">
+        </p>
+
+        <p>
+            Salva <input type="submit" value="Salvar">
+        </p>
+    </form>
+     <p><a href="carros"> Listagem de carros</a></p>
+</body>
+
+</html>

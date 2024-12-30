@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title%>>
+    </title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <h1>
+        <%=title %>
+    </h1>
+    <p>Preencha os campos abaixo pra cadastrar um cliente.</p>
+    <form action="/new" method="post">
+        <fieldset>
+            <legend>Dados Cadastrais</legend>
+            <p> Nome: <input type="text" name="nome" value="<%=customer.nome%>"></p>
+            <p> Idade: <input type="number" name="idade" value="<%=customer.idade%>"></p>
+            <p> Cidade:
+                <select name="cidade" id="cidade" value="">
+                    <option class = 'cidade'  value="-1">Selecione uma Cidade</option>
+
+                </select>
+            </p>
+            <!-- <p> Região: <input type="text" name="cidade" value="<%=customer.cidade%>"></p> -->
+            <p> Estado:
+                <select name="uf" id="uf" value="">
+                    <option value="-1">Selecione um Estado</option>
+                    
+
+                </select>
+            </p>
+            <p>
+                <input type="hidden" name="id" value="<%=customer._id %>">
+            </p>
+            <input type="submit" value="Salvar">
+            <a href="/">Cancelar</a>
+
+        </fieldset>
+    </form>
+
+    <script>
+
+        fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
+            .then(result => result.json())
+            .then(json => {
+                const ufsHtml = document.getElementById("uf")
+                const siglas = json.map(item => item.sigla).sort()
+
+                siglas.forEach(item => {
+                    const opt = document.createElement("option")
+
+                    opt.value = item //+' - '+ item.nome
+                    opt.innerHTML = item
+
+                    ufsHtml.add(opt)
+                })
+
+                function filtraCidades(){
+                                
+                    const optionCidades = document.getElementsByClassName('cidade')
+                 
+                     Array.from(optionCidades).forEach((item)=>{
+                         if(item.uf != ufsHtml.value){
+
+                            item.toggleAttribute('disabled',true)
+                             
+                            // item.removeAttribute
+                            // item.attributes='hidden')
+                            
+                         }else
+                         item.removeAttribute('disabled')
+                     })    
+
+                    
+                }
+
+                ufsHtml.onchange = filtraCidades
+
+                    <%
+                if (customer.uf) {
+                %>
+                        ufsHtml.value = "<%=customer.uf %>"
+                            <%
+                        }
+                %>
+                   
+            })
+
+        fetch("https://servicodados.ibge.gov.br/api/v1/localidades/municipios/")
+            .then(result => result.json())
+            .then(item => item.map(municipios => {
+                // destructuring
+                const { ["regiao-imediata"]: { ["regiao-intermediaria"]: { UF: { sigla } } } } = municipios
+
+                return { nome: municipios.nome, sigla }
+            }))
+            .then(municipios => {
+          
+                const cidadesHtml = document.getElementById("cidade")
+                
+                municipios.forEach(item => {
+                    const cidade = document.createElement('option')
+
+                    const cidadeUf =item.nome + ' - ' + item.sigla 
+
+                    cidade.value = item.nome
+                    cidade.innerHTML = item.nome
+                    cidade.id =  cidadeUf
+                    cidade.uf = item.sigla
+                    cidade.className += ' cidade'
+
+                    cidadesHtml.add(cidade)
+                })
+
+                function trocaUF() {
+
+                    const id = this.value
+
+                    if (document.getElementById("uf").value != document.getElementById(id).uf)
+                    document.getElementById("uf").value = document.getElementById(id).uf
+                }
+                cidadesHtml.onchange = trocaUF
+
+                <%
+                if (customer.cidade) {
+                %>
+                    cidadesHtml.value = "<%=customer.cidade %>"
+                            <%
+                        }
+                %>
+            })
+
+
+        // uf: municipios['regiao-imediata']['regiao-intermediaria'].UF.sigla }
+
+
+        if (window.location.search) {
+            const error = window.location.search.split('=')[1]
+            alert(decodeURI(error))
+        }
+
+    </script>
+</body>
+
+</html>
